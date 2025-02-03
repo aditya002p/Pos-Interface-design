@@ -11,16 +11,19 @@ const ServiceCard = ({ service }) => {
 
   return (
     <Card className="h-full flex flex-col">
-      <div className="p-4">
-        <h3 className="text-lg font-medium text-gray-900">{service.name}</h3>
-        <p className="mt-1 text-gray-500">{service.description}</p>
+      <div className="p-3 lg:p-4">
+        <h3 className="text-base lg:text-lg font-medium text-gray-900">
+          {service.name}
+        </h3>
+        <p className="mt-1 text-sm text-gray-500">{service.description}</p>
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-xl font-bold text-gray-900">
+          <span className="text-lg lg:text-xl font-bold text-gray-900">
             {formatCurrency(service.price)}
           </span>
           <Button
             variant="primary"
             size="sm"
+            className="text-sm"
             onClick={() => addToCart(service)}
           >
             Add to Cart
