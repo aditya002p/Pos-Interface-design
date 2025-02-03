@@ -2,8 +2,8 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { useCart } from "../../hooks/useCart";
-import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
+import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 import { formatCurrency } from "../../utils/currency";
 
 const ServiceCard = ({ service }) => {
