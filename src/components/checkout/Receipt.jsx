@@ -1,67 +1,72 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useCart } from "../../hooks/useCart";
-import { Card } from "../ui/Card";
-import { formatCurrency } from "../../utils/currency";
-import { formatDate } from "../../utils/dateFormatter";
+import { CheckCircle } from "lucide-react";
 
 const Receipt = () => {
-  const { cart, customer, getTotal } = useCart();
-  const receiptNumber = Math.random().toString(36).substr(2, 9).toUpperCase();
+  const { cart, getTotal } = useCart();
+  const orderNumber = "WPO_117";
   const date = new Date();
 
   return (
-    <Card className="max-w-2xl mx-auto">
+    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold">Receipt</h2>
-        <p className="text-gray-500">#{receiptNumber}</p>
-        <p className="text-gray-500">{formatDate(date)}</p>
+        <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-2" />
+        <h2 className="text-xl font-bold">ORDER PROCESSING</h2>
       </div>
 
-      {customer && (
-        <div className="mb-6">
-          <h3 className="font-bold mb-2">Customer Details</h3>
-          <p>{customer.name}</p>
-          <p>{customer.email}</p>
-          <p>{customer.phone}</p>
+      <div className="space-y-4">
+        <div className="grid grid-cols-4 text-sm">
+          <div>
+            <p className="text-gray-600">Order Number</p>
+            <p className="font-medium">{orderNumber}</p>
+          </div>
+          <div>
+            <p className="text-gray-600">Order Date</p>
+            <p className="font-medium">{date.toLocaleDateString()}</p>
+          </div>
+          <div>
+            <p className="text-gray-600">Payment Method</p>
+            <p className="font-medium">Cash</p>
+          </div>
+          <div>
+            <p className="text-gray-600">Payment Status</p>
+            <p className="text-red-500">Not Paid</p>
+          </div>
         </div>
-      )}
 
-      <div className="border-t border-b py-4 mb-4">
-        <table className="w-full">
-          <thead>
-            <tr className="text-left">
-              <th>Service</th>
-              <th className="text-right">Qty</th>
-              <th className="text-right">Price</th>
-              <th className="text-right">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td className="text-right">{item.quantity}</td>
-                <td className="text-right">{formatCurrency(item.price)}</td>
-                <td className="text-right">
-                  {formatCurrency(item.price * item.quantity)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        <div className="border-t pt-4">
+          {cart.map((item) => (
+            <div key={item.id} className="flex items-center space-x-4 mb-4">
+              <div className="flex-1">
+                <p className="font-medium">{item.name}</p>
+                <p className="text-sm text-gray-600">Qty {item.quantity}</p>
+              </div>
+              <p className="font-medium">${item.price.toFixed(2)}</p>
+            </div>
+          ))}
+        </div>
 
-      <div className="text-right">
-        <div className="text-xl font-bold">
-          Total:{formatCurrency(getTotal())}
+        <div className="border-t pt-4 space-y-2">
+          <div className="flex justify-between">
+            <span>Subtotal</span>
+            <span>${getTotal().toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>VAT</span>
+            <span>$1.38</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Discount</span>
+            <span>$0.00</span>
+          </div>
+          <div className="flex justify-between font-bold">
+            <span>Total</span>
+            <span className="text-xl">${(getTotal() + 1.38).toFixed(2)}</span>
+          </div>
         </div>
       </div>
-
-      <div className="mt-8 text-center text-sm text-gray-500">
-        <p>Thank you for your business!</p>
-      </div>
-    </Card>
+    </div>
   );
 };
 export default Receipt;
